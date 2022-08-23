@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace = "sale">
+  <select id="sales">
+  	select met.custno, custname,
+		decode(met.grade, 'A', 'VIP', 'B', '일반', 'C', '직원') as agrade,
+		asum
+	from member_tbl_02 met join
+			(select custno, sum(price) asum from money_tbl_02 mot 
+			group by custno
+			order by asum desc) sale
+	on met.custno = sale.custno ORDER BY asum desc
+  	
+  </select>
+  </mapper>
